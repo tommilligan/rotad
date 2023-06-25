@@ -1,14 +1,14 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
 
 interface Store {
-  repoId: number | null;
-  setRepoId: (repoId: number) => void;
+  authToken: string | null;
+  setAuthToken: (authToken: string) => void;
 }
 
 const useStore: UseBoundStore<StoreApi<Store>> = create(
   (set): Store => ({
-    repoId: null,
-    setRepoId: (repoId: number) => set(() => ({ repoId })),
+    authToken: null,
+    setAuthToken: (authToken: string) => set(() => ({ authToken })),
   })
 );
 export default useStore;

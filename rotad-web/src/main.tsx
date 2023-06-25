@@ -8,14 +8,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Theme from "src/components/Theme";
 
 function App() {
-	console.warn("App");
+  console.warn("App");
   removeUnusedLocalStorageItems();
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
-          <Home />
-      ),
+      element: <Home />,
     },
   ]);
 
