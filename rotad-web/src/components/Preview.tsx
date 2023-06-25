@@ -5,24 +5,18 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Dayjs } from "dayjs";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { toRFC3339 } from "src/utils";
+import { Shift } from "src/types";
 
-export interface Data {
-  title: string;
-  start: Dayjs;
-  end: Dayjs;
-}
-
-export default function RotaPreview({ rows }: { rows: Array<Data> }) {
+export default function RotaPreview({ rows }: { rows: Array<Shift> }) {
   return rows.length === 0 ? null : (
     <>
       <Alert severity="info">
         <Stack>
-          <Typography variant="p">
+          <Typography variant="body1">
             <code>rotad</code> will create <b>{rows.length} events</b>, starting
             on <b>{toRFC3339(rows[0].start)}</b> and ending on{" "}
             <b>{toRFC3339(rows[rows.length - 1].start)}</b>

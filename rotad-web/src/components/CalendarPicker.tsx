@@ -8,11 +8,7 @@ import Stack from "@mui/material/Stack";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CircleIcon from "@mui/icons-material/Circle";
-
-export interface Calendar {
-  id: string;
-  summary: string;
-}
+import { Calendar } from "src/types";
 
 interface CalendarPickerProps {
   value: Calendar | null;

@@ -1,13 +1,14 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import useGoogleClient from "src/hooks/useGoogleClient";
-import { KyInstance } from "ky";
+import { GoogleClient } from "src/google-client";
 import { Dayjs } from "dayjs";
 import { toRFC3339 } from "src/utils";
+import { Event } from "src/types";
 
 export default function useEventList(
   calendarId: string,
   timeMin: Dayjs
-): UseQueryResult<Array<any>, Error> {
+): UseQueryResult<{ items: Array<Event> }, Error> {
   const googleClient = useGoogleClient();
 
   return useQuery({
@@ -17,7 +18,7 @@ export default function useEventList(
 }
 
 async function getEventList(
-  googleClient: KyInstance,
+  googleClient: GoogleClient,
   calendarId: string,
   timeMin: Dayjs
 ): Promise<Array<any>> {

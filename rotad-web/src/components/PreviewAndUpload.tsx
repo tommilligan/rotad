@@ -1,7 +1,8 @@
 import { Dayjs } from "dayjs";
-import { Calendar } from "src/components/CalendarPicker";
+import { Calendar } from "src/types";
 import DataLossWarning from "src/components/DataLossWarning";
-import Preview, { Data } from "src/components/Preview";
+import Preview from "src/components/Preview";
+import { Shift } from "src/types";
 import useEventsList from "src/hooks/useEventsList";
 import useCreateNew from "src/hooks/useCreateNew";
 import useDeleteExisting from "src/hooks/useDeleteExisting";
@@ -11,7 +12,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 interface PreviewAndUploadProps {
   startDate: Dayjs;
   calendar: Calendar;
-  rows: Array<Data>;
+  rows: Array<Shift>;
 }
 
 export default function PreviewAndUpload({
@@ -21,7 +22,7 @@ export default function PreviewAndUpload({
 }: PreviewAndUploadProps) {
   const eventsList = useEventsList(calendar.id, startDate);
   const eventIds = eventsList.isSuccess
-    ? eventsList.data.items!.map((event) => event.id)
+    ? eventsList.data!.items!.map!((event) => event.id)
     : [];
   const [deleteExisting, setDeleteExisting] = useDeleteExisting(
     calendar.id,
@@ -36,11 +37,11 @@ export default function PreviewAndUpload({
 
   return (
     <>
-      {eventsList.isSuccess && eventsList.data.items.length > 0 ? (
+      {eventsList.isSuccess && eventsList.data!.items.length > 0 ? (
         <DataLossWarning
           startDate={startDate}
-          calendar={calendar}
-          deleteCount={eventsList.data.items.length}
+          calendarName={calendar.summary}
+          deleteCount={eventsList.data!.items.length}
         />
       ) : null}
 

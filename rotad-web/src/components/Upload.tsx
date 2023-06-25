@@ -1,10 +1,10 @@
 import dayjs, { Dayjs } from "dayjs";
 import { LOCAL_STORAGE_KEYS } from "src/constants";
-import CalendarPicker, { Calendar } from "src/components/CalendarPicker";
+import CalendarPicker from "src/components/CalendarPicker";
 import StartPicker from "src/components/StartPicker";
 import RotaInput from "src/components/RotaInput";
 import PreviewAndUpload from "src/components/PreviewAndUpload";
-import { Data } from "src/components/Preview";
+import { Calendar, Shift } from "src/types";
 import { useState } from "react";
 
 import utc from "dayjs/plugin/utc";
@@ -18,7 +18,7 @@ function parseRow(
   index: number,
   rawRow: string,
   timezone: string
-): Data | null {
+): Shift | null {
   const trimmed = rawRow.trim();
   const base = startDate.add(index, "day");
   let title;
@@ -62,6 +62,10 @@ function parseRow(
   return { title, start: start.tz(timezone), end: end.tz(timezone) };
 }
 
+function isShift(shift: Shift | null): shift is Shift {
+  return shift !== null;
+}
+
 export default function Upload() {
   const defaultCalendarJson = localStorage.getItem(
     LOCAL_STORAGE_KEYS.lastSelectedCalendar
@@ -77,17 +81,17 @@ export default function Upload() {
   const [rotaInput, setRotaInput] = useState<Array<string>>([]);
 
   const timezone = dayjs.tz.guess();
-  const rows = rotaInput
+  const rows: Array<Shift> = rotaInput
     .map((rawRow, index) => {
       return parseRow(startDate, index, rawRow, timezone);
     })
-    .filter((row) => row !== null);
+    .filter(isShift);
 
   return (
     <>
       <CalendarPicker value={calendar} onChange={setCalendar} />
       <StartPicker value={startDate} onChange={setStartDate} />
-      <RotaInput value={rotaInput} onChange={setRotaInput} />
+      <RotaInput onChange={setRotaInput} />
       {calendar !== null && rows.length > 0 ? (
         <PreviewAndUpload
           startDate={startDate}

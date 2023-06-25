@@ -1,6 +1,8 @@
-import ky, { KyInstance } from "ky";
+import ky from "ky";
 
-export function newWithToken(token: string): KyInstance {
+export type GoogleClient = any;
+
+export function newWithToken(token: string): GoogleClient {
   const api = ky.extend({
     hooks: {
       beforeRequest: [

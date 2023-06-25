@@ -1,5 +1,10 @@
 import useStore from "src/hooks/useStore";
 
+interface TokenResponse {
+  access_token?: string;
+  error?: string;
+}
+
 export default function useTokenClient() {
   const store = useStore();
   const client = google.accounts.oauth2.initTokenClient({
@@ -10,7 +15,7 @@ export default function useTokenClient() {
       "https://www.googleapis.com/auth/calendar.calendars.readonly",
       "https://www.googleapis.com/auth/calendar.events",
     ].join(" "),
-    callback: (response) => {
+    callback: (response: TokenResponse) => {
       if (response.access_token) {
         store.setAuthToken(response.access_token);
       } else {

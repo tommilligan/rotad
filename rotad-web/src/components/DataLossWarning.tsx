@@ -21,11 +21,11 @@ export default function DataLossWarning({
     <Alert severity="warning">
       <AlertTitle>Warning</AlertTitle>
       <Stack>
-        <Typography variant="p">
-          <code>rotad</code> will delete <b>{deleteCount} events</b> in{" "}
-          {calendarName} on or after <b>{toRFC3339(startDate)}</b>.
+        <Typography variant="body1">
+          <b>{deleteCount} events</b> in calendar <b>{calendarName}</b> will be
+          deleted.
         </Typography>
-        <Typography variant="p">
+        <Typography variant="body1">
           <Link
             href="https://calendar.google.com/calendar/u/0/r/settings/createcalendar"
             target="_blank"
