@@ -36,16 +36,16 @@ jobs:
           node-version: 18
           cache: "npm"
       - name: Install dependencies
-        run: cd rotad-web && npm install
+        run: npm install
       - name: Build
-        run: cd rotad-web && VITE_BASE="/rotad/" npm run build
+        run: VITE_BASE="/rotad/" npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload dist repository
-          path: "./rotad-web/dist"
+          path: "./dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
