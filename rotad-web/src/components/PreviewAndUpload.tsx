@@ -3,7 +3,9 @@ import { Calendar } from "src/components/CalendarPicker";
 import DataLossWarning from "src/components/DataLossWarning";
 import Preview, { Data } from "src/components/Preview";
 import useEventsList from "src/hooks/useEventsList";
+import useCreateNew from "src/hooks/useCreateNew";
 import { useCallback } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface PreviewAndUploadProps {
   startDate: Dayjs;
@@ -17,9 +19,17 @@ export default function PreviewAndUpload({
   rows,
 }: PreviewAndUploadProps) {
   const eventsList = useEventsList(calendar.id, startDate);
+  // const deleteExisting = useDeleteExisting();
+  const [createNew, setCreateNew] = useCreateNew(calendar.id, rows);
   console.log(eventsList);
 
-  const upload = useCallback(() => {}, []);
+  const deleteAndUpload = useCallback(() => {
+    if (eventsList.isSuccess) {
+      // deleteExisting(eventsList.data.items);
+    }
+
+    setCreateNew();
+  }, []);
 
   return (
     <>
@@ -32,6 +42,14 @@ export default function PreviewAndUpload({
       ) : null}
 
       <Preview rows={rows} />
+      <LoadingButton
+        color="primary"
+        size="medium"
+        onClick={deleteAndUpload}
+        loading={createNew.isLoading}
+      >
+        Upload
+      </LoadingButton>
     </>
   );
 }
