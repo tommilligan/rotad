@@ -2,7 +2,7 @@ import "./index.css";
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReactDOM from "react-dom/client";
-import { Home } from "./routes";
+import Home from "./routes/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 import Theme from "src/components/Theme";
