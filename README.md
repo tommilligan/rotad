@@ -10,11 +10,9 @@
 
 ## Usage
 
-**Note:** Your Google account must be whitelisted before login. Please contact me directly to get access.
-
 Check out the hosted version [here](https://tommilligan.github.io/rotad/).
 
-Login is provided by the Google account you wish to sync your rota to.
+**Note:** Your Google account must be whitelisted before login. Please contact me directly to get access.
 
 ### Supported format
 
