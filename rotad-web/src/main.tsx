@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import Home from "./routes/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 import Theme from "src/components/Theme";
 
 function App() {
@@ -21,7 +22,9 @@ function App() {
       <CssBaseline>
         <QueryClientProvider client={queryClient}>
           <React.StrictMode>
-            <RouterProvider router={router} />
+            <Container>
+              <RouterProvider router={router} />
+            </Container>
           </React.StrictMode>
         </QueryClientProvider>
       </CssBaseline>

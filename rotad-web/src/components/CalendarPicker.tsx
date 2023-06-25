@@ -9,6 +9,8 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Calendar } from "src/types";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
 
 interface CalendarPickerProps {
   value: Calendar | null;
@@ -37,6 +39,17 @@ export default function CalendarPicker({
     <Skeleton width={400} height={56} />
   ) : (
     <>
+      <Typography variant="body1">
+        You should{" "}
+        <Link
+          href="https://calendar.google.com/calendar/u/0/r/settings/createcalendar"
+          target="_blank"
+        >
+          create a new calendar
+        </Link>{" "}
+        to store your rota in.
+      </Typography>
+
       <FormControl>
         <InputLabel id="calendar-picker-label">Calendar</InputLabel>
         <Select
@@ -45,7 +58,6 @@ export default function CalendarPicker({
           value={value?.id ?? ""}
           label="Calendar"
           onChange={handleChange}
-          sx={{ width: 400 }}
         >
           {calendarList.data.items.map((item) => {
             return (

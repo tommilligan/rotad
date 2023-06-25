@@ -6,6 +6,11 @@ import RotaInput from "src/components/RotaInput";
 import PreviewAndUpload from "src/components/PreviewAndUpload";
 import { Calendar, Shift } from "src/types";
 import { useState } from "react";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -89,16 +94,38 @@ export default function Upload() {
 
   return (
     <>
-      <CalendarPicker value={calendar} onChange={setCalendar} />
-      <StartPicker value={startDate} onChange={setStartDate} />
-      <RotaInput onChange={setRotaInput} />
-      {calendar !== null && rows.length > 0 ? (
-        <PreviewAndUpload
-          startDate={startDate}
-          calendar={calendar}
-          rows={rows}
-        />
-      ) : null}
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Panel>
+            <CalendarPicker value={calendar} onChange={setCalendar} />
+            <StartPicker value={startDate} onChange={setStartDate} />
+            <RotaInput onChange={setRotaInput} />
+          </Panel>
+        </Grid>
+        <Grid item xs={6}>
+          <Panel>
+            {calendar !== null && rows.length > 0 ? (
+              <PreviewAndUpload
+                startDate={startDate}
+                calendar={calendar}
+                rows={rows}
+              />
+            ) : (
+              <Alert severity="info">Enter data to preview rota</Alert>
+            )}
+          </Panel>
+        </Grid>
+      </Grid>
     </>
+  );
+}
+
+function Panel({ children }: { children: React.ReactNode }) {
+  return (
+    <Paper elevation={2}>
+      <Box padding={2}>
+        <Stack spacing={2}>{children}</Stack>
+      </Box>
+    </Paper>
   );
 }

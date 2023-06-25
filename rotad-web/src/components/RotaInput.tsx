@@ -13,5 +13,13 @@ export default function RotaInput({ onChange }: RotaInputProps) {
     },
     [onChange]
   );
-  return <TextField label="Rota" multiline rows={3} onChange={onInputChange} />;
+  return (
+    <TextField
+      label="Rota"
+      multiline
+      rows={22}
+      onChange={onInputChange}
+      placeholder="Paste your rota column - one day per row"
+    />
+  );
 }
