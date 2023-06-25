@@ -1,9 +1,32 @@
 # rotad
 
+Sync your NHS shift rota to Google Calendar.
+
+## Usage
+
 Check out the hosted version [here](https://tommilligan.github.io/rotad/)
 
-## Developmenet
+### Supported format
 
-- Can host locally at `http://localhost:56823`
-- `oauth2/callback`
-- `94783838569-lju85dpld8gc66ucdk9db83nrplrjo8v.apps.googleusercontent.com`
+Currently supported rota format is one day per line.
+
+This is designed to be copied from an excel column.
+
+```
+O
+O
+D
+D
+D
+
+
+L
+L
+L
+L
+...
+```
+
+## Roadmap
+
+- [ ] Custom time/parsing options for each rota code
