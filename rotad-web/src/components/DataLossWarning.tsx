@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import AlertTitle from "@mui/material/AlertTitle";
 import Link from "@mui/material/Link";
 import { Dayjs } from "dayjs";
+import { toRFC3339 } from "src/utils";
 
 interface DataLossWarningProps {
   startDate: Dayjs;
@@ -22,7 +23,7 @@ export default function DataLossWarning({
       <Stack>
         <Typography variant="p">
           <code>rotad</code> will delete <b>{deleteCount} events</b> in{" "}
-          {calendarName} on or after <b>{startDate.toISOString()}</b>.
+          {calendarName} on or after <b>{toRFC3339(startDate)}</b>.
         </Typography>
         <Typography variant="p">
           <Link

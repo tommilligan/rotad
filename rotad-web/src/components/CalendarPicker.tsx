@@ -53,14 +53,12 @@ export default function CalendarPicker({
         >
           {calendarList.data.items.map((item) => {
             return (
-              <MenuItem value={item.id}>
+              <MenuItem key={item.id} value={item.id}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Box>
                     <CircleIcon sx={{ color: item.backgroundColor }} />{" "}
                   </Box>
-                  <Box>
-                    {item.summary} ({item.id})
-                  </Box>
+                  <Box>{item.summary}</Box>
                 </Stack>
               </MenuItem>
             );

@@ -4,6 +4,7 @@ import DataLossWarning from "src/components/DataLossWarning";
 import Preview, { Data } from "src/components/Preview";
 import useEventsList from "src/hooks/useEventsList";
 import useCreateNew from "src/hooks/useCreateNew";
+import useDeleteExisting from "src/hooks/useDeleteExisting";
 import { useCallback } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -19,15 +20,17 @@ export default function PreviewAndUpload({
   rows,
 }: PreviewAndUploadProps) {
   const eventsList = useEventsList(calendar.id, startDate);
-  // const deleteExisting = useDeleteExisting();
+  const eventIds = eventsList.isSuccess
+    ? eventsList.data.items!.map((event) => event.id)
+    : [];
+  const [deleteExisting, setDeleteExisting] = useDeleteExisting(
+    calendar.id,
+    eventIds
+  );
   const [createNew, setCreateNew] = useCreateNew(calendar.id, rows);
-  console.log(eventsList);
 
   const deleteAndUpload = useCallback(() => {
-    if (eventsList.isSuccess) {
-      // deleteExisting(eventsList.data.items);
-    }
-
+    setDeleteExisting();
     setCreateNew();
   }, []);
 
@@ -43,10 +46,11 @@ export default function PreviewAndUpload({
 
       <Preview rows={rows} />
       <LoadingButton
+        variant="contained"
         color="primary"
         size="medium"
         onClick={deleteAndUpload}
-        loading={createNew.isLoading}
+        loading={deleteExisting.isLoading || createNew.isLoading}
       >
         Upload
       </LoadingButton>

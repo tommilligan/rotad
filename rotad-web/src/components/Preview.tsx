@@ -9,6 +9,7 @@ import { Dayjs } from "dayjs";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { toRFC3339 } from "src/utils";
 
 export interface Data {
   title: string;
@@ -23,13 +24,13 @@ export default function RotaPreview({ rows }: { rows: Array<Data> }) {
         <Stack>
           <Typography variant="p">
             <code>rotad</code> will create <b>{rows.length} events</b>, starting
-            on <b>{rows[0].start.toISOString()}</b> and ending on{" "}
-            <b>{rows[rows.length - 1].start.toISOString()}</b>
+            on <b>{toRFC3339(rows[0].start)}</b> and ending on{" "}
+            <b>{toRFC3339(rows[rows.length - 1].start)}</b>
           </Typography>
         </Stack>
       </Alert>
       <Paper sx={{ width: 600, overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer sx={{ maxHeight: 320 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -39,17 +40,17 @@ export default function RotaPreview({ rows }: { rows: Array<Data> }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(0, 3).map((row) => {
+              {rows.map((row) => {
                 return (
                   <TableRow
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.start.toISOString()}
+                    key={toRFC3339(row.start)}
                   >
                     <TableCell> {row.title} </TableCell>
-                    <TableCell> {row.start.toISOString()} </TableCell>
-                    <TableCell> {row.end.toISOString()} </TableCell>
+                    <TableCell> {toRFC3339(row.start)} </TableCell>
+                    <TableCell> {toRFC3339(row.end)} </TableCell>
                   </TableRow>
                 );
               })}

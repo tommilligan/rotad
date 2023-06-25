@@ -2,6 +2,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import useGoogleClient from "src/hooks/useGoogleClient";
 import { KyInstance } from "ky";
 import { Dayjs } from "dayjs";
+import { toRFC3339 } from "src/utils";
 
 export default function useEventList(
   calendarId: string,
@@ -22,7 +23,9 @@ async function getEventList(
 ): Promise<Array<any>> {
   return googleClient
     .get(
-      `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${timeMin.toISOString()}&maxResults=366`
+      `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${encodeURIComponent(
+        toRFC3339(timeMin)
+      )}&maxResults=366`
     )
     .json();
 }

@@ -7,10 +7,17 @@ import PreviewAndUpload from "src/components/PreviewAndUpload";
 import { Data } from "src/components/Preview";
 import { useState } from "react";
 
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 function parseRow(
   startDate: Dayjs,
   index: number,
-  rawRow: string
+  rawRow: string,
+  timezone: string
 ): Data | null {
   const trimmed = rawRow.trim();
   const base = startDate.add(index, "day");
@@ -52,7 +59,7 @@ function parseRow(
       end = base.hour(14).minute(0).second(0);
       break;
   }
-  return { title, start, end };
+  return { title, start: start.tz(timezone), end: end.tz(timezone) };
 }
 
 export default function Upload() {
@@ -64,12 +71,15 @@ export default function Upload() {
     : null;
 
   const [calendar, setCalendar] = useState<Calendar | null>(defaultCalendar);
-  const [startDate, setStartDate] = useState<Dayjs>(dayjs().startOf("day"));
+  const [startDate, setStartDate] = useState<Dayjs>(
+    dayjs().local().startOf("day")
+  );
   const [rotaInput, setRotaInput] = useState<Array<string>>([]);
 
+  const timezone = dayjs.tz.guess();
   const rows = rotaInput
     .map((rawRow, index) => {
-      return parseRow(startDate, index, rawRow);
+      return parseRow(startDate, index, rawRow, timezone);
     })
     .filter((row) => row !== null);
 
