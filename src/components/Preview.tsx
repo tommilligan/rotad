@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { toRFC3339 } from "src/utils";
 import { Shift } from "src/types";
+import dayjs from "dayjs";
 
 export default function RotaPreview({ rows }: { rows: Array<Shift> }) {
   return rows.length === 0 ? null : (
@@ -16,13 +17,15 @@ export default function RotaPreview({ rows }: { rows: Array<Shift> }) {
       <Alert severity="info">
         <Stack>
           <Typography variant="body1">
-            <b>{rows.length} events</b> will be created.
+            <b>{rows.length} events</b> will be created, from{" "}
+            {rows[0].start.format("DD/MM/YYYY")} to{" "}
+            {rows[rows.length - 1].start.format("DD/MM/YYYY")}
           </Typography>
           <Typography variant="body1">
-            First event starts <b>{toRFC3339(rows[0].start)}</b>
-          </Typography>
-          <Typography variant="body1">
-            Last event starts <b>{toRFC3339(rows[rows.length - 1].start)}</b>
+            Estimated upload time:{" "}
+            <b>
+              {dayjs.duration(Math.ceil(rows.length / 3), "seconds").humanize()}
+            </b>
           </Typography>
         </Stack>
       </Alert>

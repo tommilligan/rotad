@@ -11,6 +11,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { Calendar } from "src/types";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 
 interface CalendarPickerProps {
   value: Calendar | null;
@@ -52,26 +53,36 @@ export default function CalendarPicker({
 
       <FormControl>
         <InputLabel id="calendar-picker-label">Calendar</InputLabel>
-        <Select
-          labelId="calendar-picker-label"
-          id="calendar-picker"
-          value={value?.id ?? ""}
-          label="Calendar"
-          onChange={handleChange}
+        <Tooltip
+          title={
+            <Typography variant="body2">
+              The calendar your rota will be managed in
+            </Typography>
+          }
+          placement="right"
+          arrow
         >
-          {calendarList.data.items.map((item) => {
-            return (
-              <MenuItem key={item.id} value={item.id}>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <Box>
-                    <CircleIcon sx={{ color: item.backgroundColor }} />{" "}
-                  </Box>
-                  <Box>{item.summary}</Box>
-                </Stack>
-              </MenuItem>
-            );
-          })}
-        </Select>
+          <Select
+            labelId="calendar-picker-label"
+            id="calendar-picker"
+            value={value?.id ?? ""}
+            label="Calendar"
+            onChange={handleChange}
+          >
+            {calendarList.data.items.map((item) => {
+              return (
+                <MenuItem key={item.id} value={item.id}>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Box>
+                      <CircleIcon sx={{ color: item.backgroundColor }} />{" "}
+                    </Box>
+                    <Box>{item.summary}</Box>
+                  </Stack>
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Tooltip>
       </FormControl>
     </>
   );

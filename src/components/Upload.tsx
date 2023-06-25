@@ -1,9 +1,9 @@
 import dayjs, { Dayjs } from "dayjs";
 import { LOCAL_STORAGE_KEYS } from "src/constants";
-import CalendarPicker from "src/components/CalendarPicker";
 import StartPicker from "src/components/StartPicker";
 import RotaInput from "src/components/RotaInput";
 import PreviewAndUpload from "src/components/PreviewAndUpload";
+import CalendarPicker from "src/components/CalendarPicker";
 import { Calendar, Shift } from "src/types";
 import { useState } from "react";
 import Box from "@mui/material/Box";
@@ -14,9 +14,13 @@ import Alert from "@mui/material/Alert";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import duration from "dayjs/plugin/duration";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 function parseRow(
   startDate: Dayjs,
