@@ -8,8 +8,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Theme from "src/components/Theme";
 
 function App() {
-  console.warn("App");
-  removeUnusedLocalStorageItems();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -32,8 +30,3 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
-
-function removeUnusedLocalStorageItems() {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("oauth2_internal_state");
-}
