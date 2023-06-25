@@ -1,5 +1,4 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
-import { LOCAL_STORAGE_KEYS } from "src/constants";
 
 interface Store {
   authToken: string | null;
@@ -11,7 +10,6 @@ const useStore: UseBoundStore<StoreApi<Store>> = create(
     authToken: null,
     setAuthToken: (authToken: string) =>
       set(() => {
-        localStorage.setItem(LOCAL_STORAGE_KEYS.accessToken, authToken);
         return { authToken };
       }),
   })

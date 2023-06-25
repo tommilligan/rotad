@@ -1,4 +1,4 @@
-import useStore from "src/hooks/useStore";
+import { LOCAL_STORAGE_KEYS } from "src/constants";
 
 interface TokenResponse {
   access_token?: string;
@@ -6,7 +6,6 @@ interface TokenResponse {
 }
 
 export default function useTokenClient() {
-  const store = useStore();
   const client = google.accounts.oauth2.initTokenClient({
     client_id:
       "94783838569-lju85dpld8gc66ucdk9db83nrplrjo8v.apps.googleusercontent.com",
@@ -17,7 +16,11 @@ export default function useTokenClient() {
     ].join(" "),
     callback: (response: TokenResponse) => {
       if (response.access_token) {
-        store.setAuthToken(response.access_token);
+        localStorage.setItem(
+          LOCAL_STORAGE_KEYS.accessToken,
+          response.access_token
+        );
+        window.location.reload();
       } else {
         console.error("Error getting token:", response);
       }
