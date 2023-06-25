@@ -26,16 +26,23 @@ This is designed to be copied from an excel column.
 O
 O
 D
-D
-D
 
 
-L
-L
 L
 L
 ...
 ```
+
+The supported values are:
+
+| Code    | Title                 | Start (local) | End (local)      |
+| ------- | --------------------- | ------------- | ---------------- |
+| `D`     | Day                   | 08:00         | 17:00            |
+| `L`     | Long                  | 09:00         | 21:15            |
+| `LT`    | Late                  | 14:00         | 22:00            |
+| `N`     | Night                 | 21:00         | 09:30 (next day) |
+| `STD`   | Self Development Time | 10:00         | 16:00            |
+| `O`, `` | Off                   | (no shift)    | (no shift)       |
 
 ## Roadmap
 
