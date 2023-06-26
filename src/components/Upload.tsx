@@ -99,14 +99,14 @@ export default function Upload() {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <Panel>
             <CalendarPicker value={calendar} onChange={setCalendar} />
             <StartPicker value={startDate} onChange={setStartDate} />
             <RotaInput onChange={setRotaInput} />
           </Panel>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <Panel>
             {calendar !== null && rows.length > 0 ? (
               <PreviewAndUpload

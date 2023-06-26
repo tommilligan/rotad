@@ -37,7 +37,7 @@ export default function CalendarPicker({
   };
 
   return !calendarList.isSuccess ? (
-    <Skeleton width={400} height={56} />
+    <Skeleton width="100%" height={56} />
   ) : (
     <>
       <Typography variant="body1">
