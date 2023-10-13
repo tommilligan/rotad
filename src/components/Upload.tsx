@@ -45,15 +45,19 @@ function parseRow(
       break;
     case "D":
     case "Day":
-    case "Day/SDT":
       title = `Day`;
-      start = base.hour(8).minute(0).second(0);
+      start = base.hour(9).minute(0).second(0);
       end = base.hour(17).minute(0).second(0);
       break;
-    case "Short Day/SDT":
-      title = `Day`;
-      start = base.hour(8).minute(0).second(0);
+    case "Day/SDT":
+      title = `Day/SDT`;
+      start = base.hour(9).minute(0).second(0);
       end = base.hour(15).minute(0).second(0);
+      break;
+    case "Short Day/SDT":
+      title = `Short Day/SDT`;
+      start = base.hour(9).minute(0).second(0);
+      end = base.hour(12).minute(30).second(0);
       break;
     case "LT":
     case "Late":

@@ -21,12 +21,15 @@ export default function PreviewAndUpload({
   rows,
 }: PreviewAndUploadProps) {
   const eventsList = useEventsList(calendar.id, startDate);
-  const eventIds = eventsList.isSuccess
-    ? eventsList.data!.items!.map!((event) => event.id)
+  // Filter out recurring events, we never create them
+  const eventsToDelete = eventsList.isSuccess
+    ? eventsList.data!.items!.filter((event) => !event.recurrence)
     : [];
+  const eventIds = eventsToDelete.map!((event) => event.id);
+
   const [deleteExisting, setDeleteExisting] = useDeleteExisting(
     calendar.id,
-    eventIds
+    eventIds,
   );
   const [createNew, setCreateNew] = useCreateNew(calendar.id, rows);
 
@@ -37,11 +40,11 @@ export default function PreviewAndUpload({
 
   return (
     <>
-      {eventsList.isSuccess && eventsList.data!.items.length > 0 ? (
+      {eventsToDelete.length > 0 ? (
         <DataLossWarning
           startDate={startDate}
           calendarName={calendar.summary}
-          deleteCount={eventsList.data!.items.length}
+          deleteCount={eventsToDelete.length}
         />
       ) : null}
 

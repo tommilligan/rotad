@@ -14,6 +14,7 @@ export interface Calendar {
 
 export interface Event {
   id: string;
+  recurrence?: string;
 }
 
 export interface TimeSpec {
