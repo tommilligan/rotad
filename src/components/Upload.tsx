@@ -26,62 +26,40 @@ function parseRow(
   startDate: Dayjs,
   index: number,
   rawRow: string,
-  timezone: string,
+  timezone: string
 ): Shift | null {
-  const trimmed = rawRow.trim();
+  const canonical = rawRow.trim().toLowerCase();
   const base = startDate.add(index, "day");
   let title;
   let start;
   let end;
-  switch (trimmed) {
-    case "O":
-    case "Off":
+  switch (canonical) {
+    case "o":
+    case "off":
     case "":
       return null;
-    case "SDT":
-      title = `Self Development Time`;
-      start = base.hour(10).minute(0).second(0);
-      end = base.hour(16).minute(0).second(0);
-      break;
-    case "D":
-    case "Day":
+    case "d":
+    case "day":
       title = `Day`;
       start = base.hour(9).minute(0).second(0);
       end = base.hour(17).minute(0).second(0);
       break;
-    case "Day/SDT":
-      title = `Day/SDT`;
-      start = base.hour(9).minute(0).second(0);
-      end = base.hour(15).minute(0).second(0);
-      break;
-    case "Short Day/SDT":
-      title = `Short Day/SDT`;
-      start = base.hour(9).minute(0).second(0);
-      end = base.hour(12).minute(30).second(0);
-      break;
-    case "LT":
-    case "Late":
-      title = `Late`;
-      start = base.hour(14).minute(0).second(0);
-      end = base.hour(22).minute(0).second(0);
-      break;
-    case "N":
-    case "Night":
+    case "n":
+    case "night":
       title = `Night`;
       start = base.hour(21).minute(0).second(0);
       end = base.add(1, "day").hour(9).minute(30).second(0);
       break;
-    case "L":
-    case "Long":
-    case "Long Day":
-      title = `Long`;
+    case "gynae":
+    case "gynae/obs":
+      title = rawRow;
       start = base.hour(9).minute(0).second(0);
-      end = base.hour(21).minute(15).second(0);
+      end = base.hour(21).minute(30).second(0);
       break;
     default:
-      title = `rotad could not parse: ${trimmed}`;
-      start = base.hour(10).minute(0).second(0);
-      end = base.hour(14).minute(0).second(0);
+      title = `'${rawRow}' (assumed day)`;
+      start = base.hour(9).minute(0).second(0);
+      end = base.hour(17).minute(0).second(0);
       break;
   }
   return { title, start: start.tz(timezone), end: end.tz(timezone) };
@@ -93,7 +71,7 @@ function isShift(shift: Shift | null): shift is Shift {
 
 export default function Upload() {
   const defaultCalendarJson = localStorage.getItem(
-    LOCAL_STORAGE_KEYS.lastSelectedCalendar,
+    LOCAL_STORAGE_KEYS.lastSelectedCalendar
   );
   const defaultCalendar = defaultCalendarJson
     ? JSON.parse(defaultCalendarJson)
@@ -101,7 +79,7 @@ export default function Upload() {
 
   const [calendar, setCalendar] = useState<Calendar | null>(defaultCalendar);
   const [startDate, setStartDate] = useState<Dayjs>(
-    dayjs().local().startOf("day"),
+    dayjs().local().startOf("day")
   );
   const [rotaInput, setRotaInput] = useState<Array<string>>([]);
 

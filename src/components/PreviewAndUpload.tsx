@@ -29,7 +29,7 @@ export default function PreviewAndUpload({
 
   const [deleteExisting, setDeleteExisting] = useDeleteExisting(
     calendar.id,
-    eventIds,
+    eventIds
   );
   const [createNew, setCreateNew] = useCreateNew(calendar.id, rows);
 
