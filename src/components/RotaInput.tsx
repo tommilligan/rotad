@@ -3,19 +3,26 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
 import { useCallback } from "react";
+import { LOCAL_STORAGE_KEYS } from "src/constants";
 
 interface RotaInputProps {
+  entries: string[];
   onChange: (entries: Array<string>) => void;
 }
 
-export default function RotaInput({ onChange }: RotaInputProps) {
+export default function RotaInput({ entries, onChange }: RotaInputProps) {
   const onInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const lines = event.target.value.split("\n");
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.lastRotaInput,
+        JSON.stringify(lines),
+      );
       onChange(lines);
     },
-    [onChange]
+    [onChange],
   );
+  const value = entries.join("\n");
   return (
     <Tooltip
       title={
@@ -31,7 +38,13 @@ export default function RotaInput({ onChange }: RotaInputProps) {
       placement="right"
       arrow
     >
-      <TextField label="Rota" multiline rows={22} onChange={onInputChange} />
+      <TextField
+        value={value}
+        label="Rota"
+        multiline
+        rows={22}
+        onChange={onInputChange}
+      />
     </Tooltip>
   );
 }

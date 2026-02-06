@@ -21,7 +21,7 @@ export default function useCalendarList(): UseQueryResult<
 }
 
 async function getCalendarList(
-  googleClient: GoogleClient
+  googleClient: GoogleClient,
 ): Promise<{ items: Array<Calendar> }> {
   return googleClient
     .get("https://www.googleapis.com/calendar/v3/users/me/calendarList")

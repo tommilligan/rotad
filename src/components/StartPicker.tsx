@@ -1,8 +1,6 @@
-import dayjs, { Dayjs } from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Dayjs } from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import "dayjs/locale/en-gb";
 
 interface StartPickerProps {
@@ -17,20 +15,14 @@ export default function StartPicker({ value, onChange }: StartPickerProps) {
         onChange(newDate.local().startOf("day"));
       }
     },
-    [onChange]
+    [onChange],
   );
 
   return (
-    <LocalizationProvider
-      dateAdapter={AdapterDayjs}
-      // Not required, as we have timezone support loaded?
-      adapterLocale="en-gb"
-    >
-      <DatePicker
-        label="Start date"
-        value={value}
-        onChange={(newValue) => onInputChange(newValue)}
-      />
-    </LocalizationProvider>
+    <DatePicker
+      label="Start date"
+      value={value}
+      onChange={(newValue) => onInputChange(newValue)}
+    />
   );
 }

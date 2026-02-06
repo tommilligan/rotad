@@ -5,7 +5,7 @@ import { GoogleClient } from "src/google-client";
 
 export default function useDeleteExisting(
   calendarId: string,
-  eventIds: Array<string>
+  eventIds: Array<string>,
 ): [UseMutationResult<unknown, unknown, void>, () => void] {
   const googleClient = useGoogleClient();
 
@@ -14,7 +14,7 @@ export default function useDeleteExisting(
       eventIds.map(async (eventId, index) => {
         await sleep(2.0 * index);
         return deleteEvent(googleClient, calendarId, eventId);
-      })
+      }),
     );
   });
 
@@ -24,9 +24,9 @@ export default function useDeleteExisting(
 async function deleteEvent(
   googleClient: GoogleClient,
   calendarId: string,
-  eventId: string
+  eventId: string,
 ): Promise<void> {
   return googleClient.delete(
-    `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`
+    `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`,
   );
 }

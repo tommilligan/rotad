@@ -30,7 +30,7 @@ export default function CalendarPicker({
     if (calendar !== null) {
       localStorage.setItem(
         LOCAL_STORAGE_KEYS.lastSelectedCalendar,
-        JSON.stringify(calendar)
+        JSON.stringify(calendar),
       );
       onChange(calendar);
     }

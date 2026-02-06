@@ -6,7 +6,7 @@ import { Shift } from "src/types";
 
 export default function useCreateNew(
   calendarId: string,
-  rows: Array<Shift>
+  rows: Array<Shift>,
 ): [UseMutationResult<unknown, unknown, void>, () => void] {
   const googleClient = useGoogleClient();
 
@@ -15,7 +15,7 @@ export default function useCreateNew(
       rows.map(async (row, index) => {
         await sleep(0.4 * index);
         return createEvent(googleClient, calendarId, row);
-      })
+      }),
     );
   });
 
@@ -25,7 +25,7 @@ export default function useCreateNew(
 async function createEvent(
   googleClient: GoogleClient,
   calendarId: string,
-  row: Shift
+  row: Shift,
 ): Promise<void> {
   return googleClient.post(
     `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`,
@@ -35,6 +35,6 @@ async function createEvent(
         end: { dateTime: toRFC3339(row.end) },
         summary: row.title,
       },
-    }
+    },
   );
 }

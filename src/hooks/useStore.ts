@@ -12,6 +12,6 @@ const useStore: UseBoundStore<StoreApi<Store>> = create(
       set(() => {
         return { authToken };
       }),
-  })
+  }),
 );
 export default useStore;

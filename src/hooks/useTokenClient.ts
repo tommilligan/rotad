@@ -18,7 +18,7 @@ export default function useTokenClient() {
       if (response.access_token) {
         localStorage.setItem(
           LOCAL_STORAGE_KEYS.accessToken,
-          response.access_token
+          response.access_token,
         );
         window.location.reload();
       } else {
