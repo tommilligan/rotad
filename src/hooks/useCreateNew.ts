@@ -28,7 +28,7 @@ async function createEvent(
   row: Shift,
 ): Promise<void> {
   return googleClient.post(
-    `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`,
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`,
     {
       json: {
         start: { dateTime: toRFC3339(row.start) },

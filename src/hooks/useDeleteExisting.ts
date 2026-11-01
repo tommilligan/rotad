@@ -27,6 +27,6 @@ async function deleteEvent(
   eventId: string,
 ): Promise<void> {
   return googleClient.delete(
-    `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`,
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(eventId)}`,
   );
 }

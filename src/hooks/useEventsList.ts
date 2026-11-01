@@ -24,7 +24,7 @@ async function getEventList(
 ): Promise<Array<any>> {
   return googleClient
     .get(
-      `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${encodeURIComponent(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?timeMin=${encodeURIComponent(
         toRFC3339(timeMin),
       )}&maxResults=366`,
     )
