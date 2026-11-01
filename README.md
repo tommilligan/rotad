@@ -42,6 +42,30 @@ The supported values are:
 | `SDT`          | Self Development Time | 10:00         | 16:00            |
 | `O`, `<empty>` | Off                   | (no shift)    | (no shift)       |
 
+### Saving and loading rules
+
+The rules table can be saved to a JSON file with **Export rules**, and restored
+later (for example on another computer) with **Import rules**. Importing
+replaces all the current rules.
+
+```json
+{
+  "version": 1,
+  "rules": [
+    {
+      "match": "LT",
+      "title": "Late",
+      "startTime": "14:00",
+      "endTime": "22:00",
+      "endsNextDay": false,
+      "noEvent": false
+    }
+  ]
+}
+```
+
+Times are 24 hour local times. `title`, `endsNextDay` and `noEvent` are optional.
+
 ## Roadmap
 
 - [ ] Custom time/parsing options for each rota code

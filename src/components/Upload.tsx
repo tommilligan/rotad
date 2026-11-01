@@ -5,7 +5,9 @@ import RotaInput from "src/components/RotaInput";
 import PreviewAndUpload from "src/components/PreviewAndUpload";
 import CalendarPicker from "src/components/CalendarPicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { Calendar, Shift } from "src/types";
+import { Calendar, Rule, Shift } from "src/types";
+import { newId } from "src/utils";
+import { downloadRules, loadRulesFile } from "src/rulesFile";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -20,6 +22,8 @@ import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -74,10 +78,6 @@ function AddButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-function newId(): number {
-  return Math.floor(Math.random() * 2 ** 64);
-}
-
 interface StoredRule {
   id: number;
   match: string;
@@ -86,16 +86,6 @@ interface StoredRule {
   endsNextDay: boolean;
   noEvent: boolean;
   title: string | undefined;
-}
-
-interface Rule {
-  id: number;
-  match: string;
-  startTime: Dayjs;
-  endTime: Dayjs;
-  endsNextDay: boolean;
-  noEvent: boolean;
-  title: string;
 }
 
 function newRule(match: string): Rule {
@@ -306,6 +296,30 @@ function ConfigureRules({
   const loadKeys = () => {
     setRules([...rules, ...missingKeys.map(newRule)]);
   };
+
+  const [importError, setImportError] = useState<string | null>(null);
+  const exportRules = () => downloadRules(rules);
+  const importRules = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    // Allow the same file to be chosen again later
+    event.target.value = "";
+    if (!file) {
+      return;
+    }
+    try {
+      const importedRules = await loadRulesFile(file);
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.lastDataUploadSettings,
+        JSON.stringify(importedRules),
+      );
+      setRules(importedRules);
+      setImportError(null);
+    } catch (error) {
+      setImportError(
+        error instanceof Error ? error.message : "Could not load this file.",
+      );
+    }
+  };
   const rows = rules.map((rule, index) => {
     return (
       <ConfigureRule
@@ -351,6 +365,36 @@ function ConfigureRules({
               {missingKeys.length === 1 ? "key" : "keys"} from rota
             </Button>
           </Stack>
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<FileDownloadIcon />}
+              onClick={exportRules}
+              disabled={rules.length === 0}
+            >
+              Export rules
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              component="label"
+              startIcon={<FileUploadIcon />}
+            >
+              Import rules
+              <input
+                hidden
+                type="file"
+                accept="application/json,.json"
+                onChange={importRules}
+              />
+            </Button>
+          </Stack>
+          {importError !== null ? (
+            <Alert severity="error" onClose={() => setImportError(null)}>
+              {importError}
+            </Alert>
+          ) : null}
         </Panel>
       </Grid>
     </>

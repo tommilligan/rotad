@@ -6,6 +6,16 @@ export interface Shift {
   end: Dayjs;
 }
 
+export interface Rule {
+  id: number;
+  match: string;
+  startTime: Dayjs;
+  endTime: Dayjs;
+  endsNextDay: boolean;
+  noEvent: boolean;
+  title: string;
+}
+
 export interface Calendar {
   id: string;
   backgroundColor: string;
