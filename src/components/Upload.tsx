@@ -12,12 +12,14 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -37,6 +39,23 @@ dayjs.extend(relativeTime);
 
 function canonicalize(value: string): string {
   return value.trim().toLowerCase();
+}
+
+/**
+ * Return each distinct key in the rota, in order of first appearance.
+ *
+ * Keys are compared canonically, but the first-seen spelling (trimmed) is
+ * returned. Blank rows are ignored.
+ */
+function uniqueRotaKeys(rotaInput: string[]): string[] {
+  const keys = new Map<string, string>();
+  for (const rawRow of rotaInput) {
+    const canonical = canonicalize(rawRow);
+    if (canonical !== "" && !keys.has(canonical)) {
+      keys.set(canonical, rawRow.trim());
+    }
+  }
+  return [...keys.values()];
 }
 
 function DeleteButton({ onClick }: { onClick: () => void }) {
@@ -77,6 +96,18 @@ interface Rule {
   endsNextDay: boolean;
   noEvent: boolean;
   title: string;
+}
+
+function newRule(match: string): Rule {
+  return {
+    id: newId(),
+    match,
+    startTime: dayjs().local().startOf("day").hour(8).minute(0).second(0),
+    endTime: dayjs().local().startOf("day").hour(17).minute(0).second(0),
+    endsNextDay: false,
+    noEvent: false,
+    title: "",
+  };
 }
 
 function parseRow(
@@ -238,9 +269,11 @@ function ConfigureRule({
 function ConfigureRules({
   rules,
   setRules,
+  rotaInput,
 }: {
   readonly rules: Rule[];
   readonly setRules: (rules: Rule[]) => void;
+  readonly rotaInput: string[];
 }) {
   const setRule = (rule: Rule, index: number) => {
     const newRules = [...rules];
@@ -262,19 +295,16 @@ function ConfigureRules({
     setRules(newRules);
   };
   const addRule = () => {
-    const newRules = [
-      ...rules,
-      {
-        id: newId(),
-        match: "",
-        startTime: dayjs().local().startOf("day").hour(8).minute(0).second(0),
-        endTime: dayjs().local().startOf("day").hour(17).minute(0).second(0),
-        endsNextDay: false,
-        noEvent: false,
-        title: "",
-      },
-    ];
-    setRules(newRules);
+    setRules([...rules, newRule("")]);
+  };
+
+  // Keys that appear in the pasted rota, but have no rule yet.
+  const configuredKeys = new Set(rules.map((rule) => canonicalize(rule.match)));
+  const missingKeys = uniqueRotaKeys(rotaInput).filter(
+    (key) => !configuredKeys.has(canonicalize(key)),
+  );
+  const loadKeys = () => {
+    setRules([...rules, ...missingKeys.map(newRule)]);
   };
   const rows = rules.map((rule, index) => {
     return (
@@ -308,7 +338,19 @@ function ConfigureRules({
               <TableBody>{rows}</TableBody>
             </Table>
           </TableContainer>
-          <AddButton onClick={addRule} />
+          <Stack direction="row" alignItems="center">
+            <AddButton onClick={addRule} />
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<PlaylistAddIcon />}
+              onClick={loadKeys}
+              disabled={missingKeys.length === 0}
+            >
+              Load {missingKeys.length} unconfigured{" "}
+              {missingKeys.length === 1 ? "key" : "keys"} from rota
+            </Button>
+          </Stack>
         </Panel>
       </Grid>
     </>
@@ -378,7 +420,11 @@ export default function Upload() {
           <Panel>
             {calendar !== null && rows.length > 0 ? (
               <>
-                <ConfigureRules rules={rules} setRules={setRules} />
+                <ConfigureRules
+                  rules={rules}
+                  setRules={setRules}
+                  rotaInput={rotaInput}
+                />
                 <PreviewAndUpload
                   startDate={startDate}
                   calendar={calendar}
