@@ -5,13 +5,11 @@ interface Store {
   setAuthToken: (authToken: string) => void;
 }
 
-const useStore: UseBoundStore<StoreApi<Store>> = create(
-  (set): Store => ({
-    authToken: null,
-    setAuthToken: (authToken: string) =>
-      set(() => {
-        return { authToken };
-      }),
-  }),
-);
+const useStore: UseBoundStore<StoreApi<Store>> = create((set): Store => ({
+  authToken: null,
+  setAuthToken: (authToken: string) =>
+    set(() => {
+      return { authToken };
+    }),
+}));
 export default useStore;

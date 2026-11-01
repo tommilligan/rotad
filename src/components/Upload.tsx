@@ -330,8 +330,7 @@ export default function Upload() {
   );
 
   const defaultRotaInput = getStateJson(LOCAL_STORAGE_KEYS.lastRotaInput) as
-    | string[]
-    | null;
+    string[] | null;
   const [rotaInput, setRotaInput] = useState<Array<string>>(
     defaultRotaInput ?? [],
   );

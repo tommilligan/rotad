@@ -1,6 +1,6 @@
 <p align="center">
   <img src="./img/rotad_logo_128.png" width="128px" height="128px">
-  
+
   <h3 align="center">rotad</h3>
 
   <p align="center">
